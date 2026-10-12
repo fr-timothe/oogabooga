@@ -1,0 +1,144 @@
+/* ==============================================================
+   Name:    style
+   Goal:    Look of the calm meadow, the walkers and the OOGA BOOGA screamer.
+   ============================================================== */
+:root { --sky1: #8fd3ff; --sky2: #e8f7ff; --grass: #6cc06a; --grass2: #4fa34f; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; height: 100dvh; overflow: hidden; background: #000; }
+body { font-family: "Comic Sans MS", "Chalkboard SE", "Comic Neue", system-ui, sans-serif; user-select: none; -webkit-tap-highlight-color: transparent; }
+
+/* ---------- Start screen ---------- */
+#start { position: fixed; inset: 0; display: grid; place-items: center; text-align: center; padding: 24px;
+  background: linear-gradient(var(--sky1), var(--sky2)); color: #24506b; z-index: 30; }
+#start h1 { font-size: clamp(28px, 6vw, 56px); margin-bottom: 12px; }
+#start p { font-size: clamp(16px, 3vw, 22px); margin-bottom: 28px; opacity: .85; }
+#go { font: inherit; font-size: clamp(20px, 4vw, 30px); padding: 16px 36px; border: 0; border-radius: 999px; cursor: pointer;
+  background: #fff; color: #2f7d32; box-shadow: 0 6px 0 #2f7d32, 0 12px 30px rgba(0,0,0,.15); transition: transform .1s; }
+#go:active { transform: translateY(4px); box-shadow: 0 2px 0 #2f7d32; }
+.hint { margin-top: 18px; font-size: 14px; opacity: .6; }
+
+/* ---------- Calm scene ---------- */
+#scene { position: fixed; inset: 0; overflow: hidden; background: linear-gradient(var(--sky1), var(--sky2) 70%); transition: filter 2s; }
+#scene.tense { filter: saturate(.6) brightness(.8); }
+.sun { position: absolute; top: 8%; right: 10%; width: clamp(64px, 14vmin, 120px); height: clamp(64px, 14vmin, 120px); border-radius: 50%; background: #ffe066;
+  box-shadow: 0 0 60px 20px rgba(255,224,102,.6); animation: pulse 3s ease-in-out infinite; }
+.sun::after { content: "😊"; position: absolute; inset: 0; display: grid; place-items: center; font-size: clamp(34px, 7vmin, 60px); }
+#scene.tense .sun::after { content: "😐"; }
+@keyframes pulse { 50% { transform: scale(1.06); } }
+.cloud { position: absolute; width: 160px; height: 50px; background: #fff; border-radius: 50px; opacity: .95; animation: drift linear infinite; }
+.cloud::before, .cloud::after { content: ""; position: absolute; background: #fff; border-radius: 50%; }
+.cloud::before { width: 70px; height: 70px; top: -35px; left: 25px; }
+.cloud::after { width: 90px; height: 90px; top: -45px; left: 65px; }
+@keyframes drift { from { transform: translateX(-220px); } to { transform: translateX(110vw); } }
+.hill { position: absolute; bottom: -40vh; border-radius: 50%; }
+.hill.h1 { left: -20vw; width: 90vw; height: 70vh; background: #7fcf7c; }
+.hill.h2 { right: -25vw; width: 100vw; height: 75vh; background: #74c771; }
+.ground { position: absolute; left: 0; right: 0; bottom: 0; height: 26vh; background: linear-gradient(var(--grass), var(--grass2)); }
+.flower { position: absolute; font-size: 26px; animation: sway 2s ease-in-out infinite alternate; transform-origin: bottom center; }
+@keyframes sway { from { transform: rotate(-8deg); } to { transform: rotate(8deg); } }
+.bird { position: absolute; font-size: 22px; animation: fly 7s linear infinite; }
+@keyframes fly { from { transform: translate(-60px, 0); } 50% { transform: translate(50vw, -30px); } to { transform: translate(110vw, 0); } }
+
+/* Walking guys */
+.walker { position: absolute; bottom: 12vh; animation: walk linear forwards; }
+.walker.rev { animation-name: walkrev; }
+.walker svg { display: block; overflow: visible; }
+.walker.rev svg { transform: scaleX(-1); }
+@keyframes walk { from { left: -90px; } to { left: 105vw; } }
+@keyframes walkrev { from { left: 105vw; } to { left: -90px; } }
+.walker .body { animation: bob .5s ease-in-out infinite; }
+.walker .leg, .walker .arm { transform-box: fill-box; }
+.walker .leg { transform-origin: top center; animation: swing .5s ease-in-out infinite alternate; }
+.walker .leg.b, .walker .arm.a { animation-delay: -.5s; }
+.walker .arm { transform-origin: top center; animation: swing .5s ease-in-out infinite alternate-reverse; }
+@keyframes swing { from { transform: rotate(-28deg); } to { transform: rotate(28deg); } }
+@keyframes bob { 50% { transform: translateY(-3px); } }
+/* Before the scare everyone stops and stares at you */
+#scene.stare .walker { animation-play-state: paused; }
+#scene.stare .walker .leg, #scene.stare .walker .arm, #scene.stare .walker .body { animation: none; }
+#scene.stare .walker svg { transform: none !important; }
+#scene.stare .walker .eyes { transform: translate(0, 1px); }
+#scene.stare .walker .bubble { opacity: 1; }
+.walker .bubble { opacity: 0; transition: opacity .2s; }
+
+.caption { position: absolute; top: 5%; left: 0; right: 0; text-align: center; font-size: clamp(18px, 3.5vw, 30px); color: #24506b;
+  text-shadow: 0 2px 0 #fff; transition: opacity .4s; }
+
+/* ---------- Screamer ---------- */
+#scare { position: fixed; inset: 0; display: none; place-items: center; overflow: hidden; z-index: 20; background: #ff2d2d; }
+#scare.on { display: grid; }
+/* Spinning sunburst lives on its own layer so the colour cycling never tints the drawing */
+#scare::before { content: ""; position: absolute; left: 50%; top: 50%; width: 300vmax; height: 300vmax; margin: -150vmax 0 0 -150vmax;
+  background: repeating-conic-gradient(from 0deg, #ff2d2d 0 15deg, #ffcf00 15deg 30deg); }
+#scare.on::before { animation: bgspin 3s linear infinite, bghue 1.2s linear infinite; }
+@keyframes bgspin { to { transform: rotate(360deg); } }
+@keyframes bghue { to { filter: hue-rotate(360deg); } }
+#pelo, .ooga { position: relative; z-index: 1; }
+/* ---------- Video screamer ---------- */
+#yt { position: fixed; inset: 0; z-index: 24; background: #1b0f2a; opacity: 0; pointer-events: none; overflow: hidden; }
+#yt.on { opacity: 1; }
+#yt video { width: 100%; height: 100%; object-fit: cover; transform: scale(1.05); }
+#yt.on video { animation: ytshake .09s linear 12; }
+@keyframes ytshake { 0% { transform: translate(1%, -1%) scale(1.05); } 50% { transform: translate(-1%, 1%) scale(1.09); } 100% { transform: scale(1.05); } }
+
+#flash { position: fixed; inset: 0; background: #fff; opacity: 0; pointer-events: none; z-index: 25; }
+#flash.on { animation: flash .35s ease-out; }
+@keyframes flash { from { opacity: 1; } to { opacity: 0; } }
+#pelo { width: min(92vw, 88vh); height: auto; animation: zoom .35s cubic-bezier(.2, 1.8, .4, 1) both, shake .08s linear .35s 20; }
+@keyframes zoom { from { transform: scale(.1) rotate(-25deg); } to { transform: scale(1) rotate(0); } }
+@keyframes shake { 0% { transform: translate(8px, -6px) rotate(2deg); } 25% { transform: translate(-9px, 5px) rotate(-2deg); }
+  50% { transform: translate(6px, 8px) rotate(1deg); } 75% { transform: translate(-7px, -8px) rotate(-1deg); } 100% { transform: none; } }
+#pelo.dance { animation: dance .45s ease-in-out infinite alternate; }
+@keyframes dance { from { transform: rotate(-6deg) scale(.82) translateY(4%); } to { transform: rotate(6deg) scale(.86) translateY(0); } }
+#pelo .jaw { transform-box: fill-box; transform-origin: top center; animation: yap .14s ease-in-out infinite alternate; }
+@keyframes yap { from { transform: scaleY(.75); } to { transform: scaleY(1.12); } }
+#pelo .pupil { animation: crazy .2s steps(2) infinite; }
+@keyframes crazy { 50% { transform: translate(6px, -4px); } }
+
+.ooga { position: absolute; left: 0; right: 0; text-align: center; font-weight: 900; color: #fff; letter-spacing: 2px;
+  font-size: clamp(54px, 15vw, 170px); line-height: .9; -webkit-text-stroke: 4px #000; paint-order: stroke fill;
+  text-shadow: 6px 6px 0 #000; pointer-events: none; }
+.ooga { position: absolute; } .ooga.top { top: 2vh; } .ooga.bottom { bottom: 2vh; }
+#scare.calm .ooga.bottom { opacity: 0; transition: opacity .3s; }
+#scare.calm #pelo { width: min(80vw, 58vh); margin-bottom: 16vh; }
+#scare.calm .ooga.top { font-size: clamp(40px, 9vw, 96px); }
+.ooga span { display: inline-block; animation: pop .3s cubic-bezier(.2, 2, .4, 1) both, wobble .3s ease-in-out infinite alternate; }
+@keyframes pop { from { transform: scale(0); } to { transform: scale(1); } }
+@keyframes wobble { from { rotate: -6deg; } to { rotate: 6deg; } }
+
+#after { position: fixed; left: 0; right: 0; bottom: 3vh; margin: 0 auto; z-index: 22; display: none; gap: 12px;
+  flex-wrap: wrap; justify-content: center; text-align: center; width: 94vw; }
+#after.on { display: flex; animation: pop .4s cubic-bezier(.2, 2, .4, 1) both; }
+#after .lol { width: 100%; font-size: clamp(20px, 4vw, 34px); color: #fff; -webkit-text-stroke: 1.5px #000; paint-order: stroke fill;
+  text-shadow: 3px 3px 0 #000; margin-bottom: 4px; }
+#after button { font: inherit; font-size: clamp(16px, 3vw, 22px); padding: 12px 24px; border: 3px solid #000; border-radius: 999px;
+  background: #fff; cursor: pointer; box-shadow: 4px 4px 0 #000; }
+#after button:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 #000; }
+
+@media (prefers-reduced-motion: reduce) {
+  #scare.on::before, #yt.on video { animation: none; }
+  #pelo, #pelo.dance, .ooga span { animation-duration: 1ms !important; animation-iteration-count: 1 !important; }
+}
+
+/* ---------- Responsive ---------- */
+/* Phones in portrait: smaller clouds, caption below the sun */
+@media (max-width: 600px) {
+  .cloud { transform: scale(.6); }
+  .caption { top: auto; bottom: 30vh; padding: 0 16px; }
+  #after { gap: 8px; }
+  #after button { padding: 10px 16px; }
+}
+/* Short screens (phones in landscape): tighter screamer layout */
+@media (max-height: 500px) {
+  #start h1 { margin-bottom: 6px; }
+  #start p { margin-bottom: 14px; }
+  #go { padding: 10px 28px; }
+  .hint { margin-top: 10px; }
+  .caption { top: 3%; }
+  .ooga { font-size: clamp(40px, 18vh, 90px); -webkit-text-stroke: 3px #000; }
+  #pelo { width: min(70vw, 80vh); }
+  #scare.calm #pelo { width: min(50vw, 52vh); margin-bottom: 22vh; }
+  #scare.calm .ooga.top { font-size: clamp(28px, 11vh, 60px); top: 1vh; }
+  #after .lol { font-size: 18px; margin-bottom: 0; }
+  #after button { font-size: 15px; padding: 8px 16px; }
+}

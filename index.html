@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Petite balade relaxante 🌿</title>
+<meta name="description" content="Prends 5 secondes pour te détendre. Monte le son.">
+<meta property="og:title" content="Petite balade relaxante 🌿">
+<meta property="og:description" content="Prends 5 secondes pour te détendre. Monte le son.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#8fd3ff">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<section id="start">
+  <div>
+    <h1>🌿 Petite balade relaxante 🌿</h1>
+    <p>Prends 5 secondes pour toi.<br>Respire. Monte un peu le son. 🎧</p>
+    <button id="go" type="button">▶ Commencer la balade</button>
+    <p class="hint">Durée : 5 secondes de pure sérénité ✨</p>
+  </div>
+</section>
+
+<section id="scene" aria-hidden="true">
+  <div class="sun"></div>
+  <div class="cloud" style="top:12%; animation-duration:26s; animation-delay:-6s"></div>
+  <div class="cloud" style="top:24%; animation-duration:34s; animation-delay:-20s; transform:scale(.7)"></div>
+  <div class="cloud" style="top:6%; animation-duration:40s; animation-delay:-30s"></div>
+  <div class="bird" style="top:18%">🐦</div>
+  <div class="bird" style="top:28%; animation-delay:-3s; animation-duration:9s">🐤</div>
+  <div class="hill h1"></div>
+  <div class="hill h2"></div>
+  <div class="ground"></div>
+  <div class="caption" id="caption">Tout va bien. Les bonshommes se promènent. 🚶</div>
+</section>
+
+<div id="flash"></div>
+
+<!-- Original clip (youtube.com/watch?v=LPc-wKcKVUs), hidden until the scare -->
+<section id="yt" aria-hidden="true">
+  <video id="ooga" src="media/oogabooga.mp4" preload="auto" playsinline webkit-playsinline disablepictureinpicture></video>
+</section>
+
+<section id="scare" aria-live="assertive">
+  <div class="ooga top" id="oogaTop"></div>
+  <!-- Cartoon parody: big-hair screaming guy, drawn from scratch -->
+  <svg id="pelo" viewBox="0 0 400 460" role="img" aria-label="Un bonhomme dessiné qui hurle OOGA BOOGA">
+    <!-- motion lines -->
+    <g stroke="#000" stroke-width="8" stroke-linecap="round">
+      <line x1="20" y1="170" x2="55" y2="185"/><line x1="12" y1="230" x2="50" y2="230"/><line x1="20" y1="290" x2="55" y2="275"/>
+      <line x1="380" y1="170" x2="345" y2="185"/><line x1="388" y1="230" x2="350" y2="230"/><line x1="380" y1="290" x2="345" y2="275"/>
+    </g>
+    <!-- arms up -->
+    <g stroke="#000" stroke-width="6" fill="#f2c08f">
+      <path d="M95 360 L40 300 L28 250" fill="none" stroke-width="26" stroke="#000" stroke-linecap="round"/>
+      <path d="M95 360 L40 300 L28 250" fill="none" stroke-width="16" stroke="#f2c08f" stroke-linecap="round"/>
+      <path d="M305 360 L360 300 L372 250" fill="none" stroke-width="26" stroke="#000" stroke-linecap="round"/>
+      <path d="M305 360 L360 300 L372 250" fill="none" stroke-width="16" stroke="#f2c08f" stroke-linecap="round"/>
+      <circle cx="28" cy="240" r="20"/><circle cx="372" cy="240" r="20"/>
+    </g>
+    <!-- body / shirt -->
+    <path d="M90 380 Q200 330 310 380 L330 460 L70 460 Z" fill="#3a7bd5" stroke="#000" stroke-width="7"/>
+    <text x="200" y="440" text-anchor="middle" font-size="34" font-weight="900" fill="#fff" stroke="#000" stroke-width="2">SR PELO</text>
+    <!-- head -->
+    <ellipse cx="200" cy="225" rx="135" ry="150" fill="#f2c08f" stroke="#000" stroke-width="8"/>
+    <!-- ears -->
+    <ellipse cx="66" cy="235" rx="18" ry="30" fill="#f2c08f" stroke="#000" stroke-width="7"/>
+    <ellipse cx="334" cy="235" rx="18" ry="30" fill="#f2c08f" stroke="#000" stroke-width="7"/>
+    <!-- huge messy hair ("pelo") -->
+    <path d="M58 190 L30 120 L80 140 L70 60 L125 105 L140 20 L180 90 L210 8 L235 88 L280 22 L285 100 L345 55 L330 135 L380 118 L345 195
+             Q300 120 200 118 Q100 120 58 190 Z" fill="#1b1b1b" stroke="#000" stroke-width="7" stroke-linejoin="round"/>
+    <path d="M150 120 L165 165 L185 122 L205 170 L222 122 L240 160 L255 120" fill="#1b1b1b" stroke="#000" stroke-width="6" stroke-linejoin="round"/>
+    <!-- eyebrows -->
+    <path d="M105 150 L170 172" stroke="#000" stroke-width="14" stroke-linecap="round"/>
+    <path d="M295 150 L230 172" stroke="#000" stroke-width="14" stroke-linecap="round"/>
+    <!-- eyes -->
+    <circle cx="145" cy="200" r="34" fill="#fff" stroke="#000" stroke-width="6"/>
+    <circle cx="255" cy="200" r="38" fill="#fff" stroke="#000" stroke-width="6"/>
+    <circle class="pupil" cx="150" cy="205" r="9" fill="#000"/>
+    <circle class="pupil" cx="248" cy="196" r="7" fill="#000"/>
+    <!-- sweat -->
+    <path d="M330 150 Q345 175 330 185 Q315 175 330 150 Z" fill="#7fd0ff" stroke="#000" stroke-width="4"/>
+    <!-- giant mouth -->
+    <g class="jaw">
+      <path d="M110 262 Q200 245 290 262 Q300 360 200 372 Q100 360 110 262 Z" fill="#6b0f0f" stroke="#000" stroke-width="8"/>
+      <path d="M118 266 Q200 252 282 266 L280 285 Q200 272 120 285 Z" fill="#fff" stroke="#000" stroke-width="4"/>
+      <path d="M190 268 Q200 300 210 268" fill="#d9415a" stroke="#000" stroke-width="4"/>
+      <path d="M140 345 Q200 300 260 345 Q235 368 200 368 Q165 368 140 345 Z" fill="#ff7a93" stroke="#000" stroke-width="5"/>
+    </g>
+  </svg>
+  <div class="ooga bottom" id="oogaBottom"></div>
+</section>
+
+<div id="after">
+  <div class="lol">😂 T'as sursauté, avoue.</div>
+  <button id="replay" type="button">🔁 Encore !</button>
+  <button id="share" type="button">📤 Piéger un pote</button>
+</div>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
