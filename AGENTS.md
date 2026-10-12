@@ -20,3 +20,6 @@ Static prank page (no build step, no dependencies). See `README.md` for the stru
   embed: the embed always draws its play/pause controls over the clip.
 - `unlockVideo()` must run inside the start click, or mobile browsers refuse
   the clip's sound later.
+- If the Pages HTTPS certificate stays `null`, clear then re-set the custom
+  domain (`gh api -X PUT repos/fr-timothe/oogabooga/pages -f cname=...`): it
+  was approved within seconds after that. Then set `https_enforced=true`.
